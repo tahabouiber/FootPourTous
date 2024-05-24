@@ -1,4 +1,4 @@
-package com.example.footpourtous.ui.notifications
+package com.example.footpourtous.ui.compte
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.footpourtous.databinding.FragmentNotificationsBinding
+import com.example.footpourtous.databinding.FragmentCompteBinding
 
-class NotificationsFragment : Fragment() {
+class CompteFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentCompteBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val compteViewModel =
+            ViewModelProvider(this).get(CompteViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentCompteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textCompte
+        compteViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "95065441588",
+    "project_id": "footpourtous-2ad7f",
+    "storage_bucket": "footpourtous-2ad7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95065441588:android:00617a9e4e1837a4735161",
+        "android_client_info": {
+          "package_name": "com.example.footpourtous"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWkG_njjxSOQT7UVjUuHQHbJzmZLSur9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
