@@ -5,7 +5,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".SignInActivity">
+tools:context=".SignInActivity" android:background="@color/dark_gray">
 
 <TextView
     android:id="@+id/titleTextView"
@@ -66,7 +66,6 @@ tools:context=".SignInActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Mot de passe"
-        android:background="@color/dark_gray"
         android:inputType="textPassword" />
 </com.google.android.material.textfield.TextInputLayout>
 
