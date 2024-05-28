@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_home_results"
+        android:name="com.example.footpourtous.ui.home.HomeResultsFragment"
+        android:label="@string/title_home_results"
+        tools:layout="@layout/fragment_home_results" />
+
+    <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.footpourtous.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
@@ -22,4 +28,8 @@
         android:name="com.example.footpourtous.ui.compte.CompteFragment"
         android:label="@string/title_compte"
         tools:layout="@layout/fragment_compte" />
+
+
+
+
 </navigation>
