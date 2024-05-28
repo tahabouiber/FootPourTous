@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.footpourtous.R
 import com.example.footpourtous.databinding.FragmentDashboardBinding
 import com.example.footpourtous.models.Reservation
 import com.google.firebase.auth.FirebaseAuth

@@ -1,20 +1,28 @@
 package com.example.footpourtous.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.footpourtous.R
+import com.example.footpourtous.models.AvailableHour
+
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Calendar
 
 class HomeResultsFragment : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var resultsTextView: TextView
     private lateinit var backButton: Button
+    private lateinit var title: TextView
+    private lateinit var homeResultsAdapter: HomeResultsAdapter
+    private val availableHoursList: MutableList<AvailableHour> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,8 +37,6 @@ class HomeResultsFragment : Fragment() {
 
         // Initialisation de Firestore
         firestore = FirebaseFirestore.getInstance()
-        resultsTextView = view.findViewById(R.id.availableSlotsTextView)
-        backButton = view.findViewById(R.id.backButton)
 
         // Get arguments
         val city = arguments?.getString("city")
@@ -42,11 +48,25 @@ class HomeResultsFragment : Fragment() {
             searchAvailableSlots(city, gameType, date)
         }
 
+        title = view.findViewById(R.id.lableTerrain)
+        title.text = "Terrains disponibles le $date:"
+
+        backButton = view.findViewById(R.id.backButton)
         // Set up back button
         backButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.availableHoursRecyclerView)
+        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManager
+
+        homeResultsAdapter = HomeResultsAdapter(availableHoursList)
+        recyclerView.adapter = homeResultsAdapter
+
     }
+
+
 
     private fun searchAvailableSlots(city: String, gameType: String, date: String) {
         firestore.collection("terrain")
@@ -54,23 +74,54 @@ class HomeResultsFragment : Fragment() {
             .whereEqualTo("gameType", gameType)
             .get()
             .addOnSuccessListener { documents ->
-                val results = StringBuilder()
+                availableHoursList.clear()
                 for (document in documents) {
-                    val reservations = document.reference.collection("reservation")
-                    reservations.whereEqualTo("date", date).get()
-                        .addOnSuccessListener { reservationDocs ->
-                            results.append("Terrain :  ${document.id}\n")
-                            for (reservation in reservationDocs) {
-                                results.append("Time :  ${reservation.getString("time")}\n")
-                                results.append("User :  ${reservation.getString("userId")}\n")
+                    val price = document.get("price")
+                    val terrainName = document.get("name")
+                    val hours: MutableList<String> = mutableListOf()
+
+                    val calendar = Calendar.getInstance()
+                    val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+
+                    val dateParts = date.split("/")
+                    val givenDate = Calendar.getInstance().apply {
+                        set(Calendar.DAY_OF_MONTH, dateParts[0].toInt())
+                        set(Calendar.MONTH, dateParts[1].toInt() - 1)
+                        set(Calendar.YEAR, dateParts[2].toInt())
+                    }
+
+                    if (givenDate.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
+                        givenDate.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                        givenDate.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
+                        for (i in (currentHour + 1)..22) {
+                            if (i >= 15) {
+                                hours.add("$i" + "h")
                             }
-                            updateUIWithAvailableSlots(results.toString())
+                        }
+                    } else {
+                        for (i in 15..22) {
+                            hours.add("$i" + "h")
+                        }
+                    }
+
+                    document.reference.collection("reservation")
+                        .whereEqualTo("date", date).get()
+                        .addOnSuccessListener { reservationDocs ->
+                            for (reservation in reservationDocs) {
+                                val takenHour = reservation.get("time")
+                                hours.remove(takenHour)
+                                Log.d("HomeResultsFragment", "found reservation at : $takenHour")
+                            }
+                            for (h in hours) {
+                                val avHour = AvailableHour(h, "$terrainName", "$city", "$price")
+                                availableHoursList.add(avHour)
+                                Log.d("HomeResultsFragment", "available hour added : $avHour")
+                            }
+                            homeResultsAdapter.notifyDataSetChanged()
                         }
                 }
             }
     }
 
-    private fun updateUIWithAvailableSlots(results: String) {
-        resultsTextView.text = results
-    }
+
 }
