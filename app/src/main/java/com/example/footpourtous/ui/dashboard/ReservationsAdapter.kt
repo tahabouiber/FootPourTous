@@ -1,5 +1,6 @@
 package com.example.footpourtous.ui.dashboard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +22,11 @@ class ReservationsAdapter(private val reservationsList: List<Reservation>) :
         val reservation = reservationsList[position]
         holder.dateTextView.text = reservation.date
         holder.timeTextView.text = reservation.time
-        holder.userNameTextView.text = reservation.userId
-        holder.terrainNameTextView.text = reservation.terrainId
-        holder.cityTextView.text = reservation.terrainId
+        holder.userNameTextView.text = reservation.userName
+        holder.terrainNameTextView.text = reservation.terrainName
+        holder.cityTextView.text = reservation.city
 
+        Log.d("ReservationsAdapter", "Binding view holder at position $position with data $reservation")
     }
 
     override fun getItemCount(): Int {

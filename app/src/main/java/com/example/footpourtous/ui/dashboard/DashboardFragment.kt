@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.footpourtous.R
 import com.example.footpourtous.databinding.FragmentDashboardBinding
 import com.example.footpourtous.models.Reservation
 import com.google.firebase.auth.FirebaseAuth
@@ -45,7 +47,6 @@ class DashboardFragment : Fragment() {
 
         initRecyclerView()
 
-        // Load reservations data
         loadReservations()
     }
 
@@ -58,28 +59,26 @@ class DashboardFragment : Fragment() {
     }
 
     private fun loadReservations() {
-        Log.d("DashboardFragment1", "loooading")
         val currentUserUid = firebaseAuth.currentUser?.uid ?: return
         firestore.collection("users")
-            .whereEqualTo("DocumentId", currentUserUid)
-            .get()
-            .addOnSuccessListener { documents ->
+            .document(currentUserUid).get()
+            .addOnSuccessListener { document ->
                 reservationsList.clear()
-                for (document in documents) {
-                    val allReservations = document.reference.collection("reservation")
-                    allReservations.get().addOnSuccessListener{ reservationDocs ->
-                        for (reservation in reservationDocs) {
-                            reservationsList.add(reservation.toObject(Reservation::class.java))
-                            Log.d("DashboardFragment2", "reservation added : $reservation")
-                        }
+                val allReservations = document.reference.collection("reservation")
+                allReservations.get().addOnSuccessListener{ reservationDocs ->
+                    for (reservation in reservationDocs) {
+                        reservationsList.add(reservation.toObject(Reservation::class.java))
+                        Log.d("DashboardFragment", "reservation added : $reservation")
                     }
+                    // Notify adapter after adding all reservations
+                    reservationsAdapter.notifyDataSetChanged()
                 }
-                reservationsAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
+                Log.d("DashboardFragment", "reserva not found")
             }
-        Log.d("DashboardFragment3", "loooading finished")
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

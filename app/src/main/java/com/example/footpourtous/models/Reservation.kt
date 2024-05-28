@@ -4,5 +4,9 @@ data class Reservation(
     val time: String = "",
     val date: String = "",
     val terrainId: String = "",
-    val userId: String = ""
+    val userId: String = "",
+    val terrainName: String = "",
+    val userName: String = "",
+    val city: String = ""
+
 )
