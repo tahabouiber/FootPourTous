@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_home_results" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.footpourtous.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_reservations"
+        android:name="com.example.footpourtous.ui.reservations.ReservationsFragment"
+        android:label="@string/title_reservations"
+        tools:layout="@layout/fragment_reservations" />
 
     <fragment
         android:id="@+id/navigation_compte"

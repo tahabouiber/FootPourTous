@@ -2,7 +2,7 @@
     <string name="app_name">FootPourTous</string>
     <string name="title_home">Home</string>
     <string name="title_home_results">Results</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_reservations">Reservations</string>
     <string name="title_compte">Compte</string>
     <string-array name="city_array">
         <item>Le mans</item>

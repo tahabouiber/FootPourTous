@@ -105,6 +105,14 @@
                 android:text="prix"
                 android:textSize="16sp" />
         </LinearLayout>
-
     </GridLayout>
+
+    <Button
+        android:id="@+id/reserveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reserver"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/buttonColor" />
+
 </LinearLayout>

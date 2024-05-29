@@ -1,4 +1,4 @@
-package com.example.footpourtous.ui.dashboard
+package com.example.footpourtous.ui.reservations
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,7 +22,6 @@ class ReservationsAdapter(private val reservationsList: List<Reservation>) :
         val reservation = reservationsList[position]
         holder.dateTextView.text = reservation.date
         holder.timeTextView.text = reservation.time
-        holder.userNameTextView.text = reservation.userName
         holder.terrainNameTextView.text = reservation.terrainName
         holder.cityTextView.text = reservation.city
 
@@ -36,7 +35,6 @@ class ReservationsAdapter(private val reservationsList: List<Reservation>) :
     class ReservationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
         val timeTextView: TextView = itemView.findViewById(R.id.timeTextView)
-        val userNameTextView: TextView = itemView.findViewById(R.id.userNameTextView)
         val terrainNameTextView: TextView = itemView.findViewById(R.id.terrainNameTextView)
         val cityTextView: TextView = itemView.findViewById(R.id.cityTextView)
     }

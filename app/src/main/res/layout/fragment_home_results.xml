@@ -21,7 +21,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/availableHoursRecyclerView"
-            android:layout_marginHorizontal="15dp"
+            android:layout_gravity="center"
             android:layout_marginTop="16sp"
             android:layout_width="360sp"
             android:layout_height="600sp"

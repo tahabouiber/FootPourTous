@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.footpourtous.R
 import com.example.footpourtous.models.AvailableHour
-
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 
@@ -61,12 +61,9 @@ class HomeResultsFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
 
-        homeResultsAdapter = HomeResultsAdapter(availableHoursList)
+        homeResultsAdapter = HomeResultsAdapter(availableHoursList, requireContext())
         recyclerView.adapter = homeResultsAdapter
-
     }
-
-
 
     private fun searchAvailableSlots(city: String, gameType: String, date: String) {
         firestore.collection("terrain")
@@ -78,6 +75,7 @@ class HomeResultsFragment : Fragment() {
                 for (document in documents) {
                     val price = document.get("price")
                     val terrainName = document.get("name")
+                    val terrainId = document.id
                     val hours: MutableList<String> = mutableListOf()
 
                     val calendar = Calendar.getInstance()
@@ -113,7 +111,7 @@ class HomeResultsFragment : Fragment() {
                                 Log.d("HomeResultsFragment", "found reservation at : $takenHour")
                             }
                             for (h in hours) {
-                                val avHour = AvailableHour(h, "$terrainName", "$city", "$price")
+                                val avHour = AvailableHour(h, date, terrainId, "$terrainName", "$city", "$price")
                                 availableHoursList.add(avHour)
                                 Log.d("HomeResultsFragment", "available hour added : $avHour")
                             }
@@ -122,6 +120,4 @@ class HomeResultsFragment : Fragment() {
                 }
             }
     }
-
-
 }

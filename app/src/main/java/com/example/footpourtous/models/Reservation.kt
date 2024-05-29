@@ -6,7 +6,6 @@ data class Reservation(
     val terrainId: String = "",
     val userId: String = "",
     val terrainName: String = "",
-    val userName: String = "",
-    val city: String = ""
-
+    val city: String = "",
+    val price: String = ""
 )
